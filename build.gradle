@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'application' // allows setting mainClass
+}
+
+group = 'org.webclock'
+version = '0.1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation("org.seleniumhq.selenium:selenium-java:4.35.0")
+    implementation("org.yaml:snakeyaml:2.4")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    // Replace with your main class
+    mainClass = 'org.webclock.Main'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass.get()
+        )
+    }
+}
+
+// Task to build fat JAR with dependencies
+tasks.register('fatJar', Jar) {
+    archiveBaseName.set('webclock-automation') // <-- meaningful name
+    archiveClassifier.set('all')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass.get()
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from(sourceSets.main.output)
+}
