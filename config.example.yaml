@@ -1,0 +1,9 @@
+chromedriver:
+  path: "C:\\chromedriver-win64\\chromedriver.exe"
+
+webclock:
+  url: "https://www.itcs-webclock.com/prod/4ESC01/home.cfm"
+
+credentials:
+  username: "your_username"
+  password: "your_password"
