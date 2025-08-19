@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.webclock.config.Config;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,13 +55,16 @@ public class WebClockBot {
             // Click the login button
             driver.findElement(By.cssSelector("#emp_login > div:nth-child(5) > div > button")).click();
 
-            // Enter hours
-            driver.findElement(By.cssSelector("#EntryHour")).sendKeys(hours);
+            // Check if today's entry already exists before entering hours
+            if (!hasEntryForToday(driver)) {
+                // Enter hours
+                driver.findElement(By.cssSelector("#EntryHour")).sendKeys(hours);
 
-            // Click the OK button
-            String okButtonCss = "#tcHourEntry > div > div > div > div > div:nth-child(4) > div > input";
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(okButtonCss)));
-            driver.findElement(By.cssSelector(okButtonCss)).click();
+                // Click the OK button
+                String okButtonCss = "#tcHourEntry > div > div > div > div > div:nth-child(4) > div > input";
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(okButtonCss)));
+                driver.findElement(By.cssSelector(okButtonCss)).click();
+            }
 
             // Approve time sheet
             if ( getTotalHours(driver) >= 80 ) {
@@ -103,5 +109,31 @@ public class WebClockBot {
 
         // Convert to double
         return (int) Double.parseDouble(hoursStr);
+    }
+
+    /**
+     * Checks if today's date already exists in the time entry table.
+     *
+     * @return true if today's date is already in the table, false otherwise.
+     */
+    public boolean hasEntryForToday(WebDriver driver) {
+        // Match format used in the table: "08-Tue-19"
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-EEE-dd");
+        String todayFormatted = LocalDate.now().format(formatter);
+
+        // Locate table rows
+        List<WebElement> rows = driver.findElements(By.cssSelector("table.table tbody tr"));
+
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.size() >= 5) { // "Start" is the 5th column
+                String startDate = cells.get(4).getText().trim();
+                if (startDate.equalsIgnoreCase(todayFormatted)) {
+                    logger.log(Level.WARNING, "Entry already exists for today: {0}", todayFormatted);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
