@@ -83,13 +83,6 @@ public class WebClockBot {
                 driver.findElement(By.cssSelector(approveAnchorCssSelector)).click();
 
             }
-
-            // Wait to observe the result (you can replace with explicit waits for post-login elements)
-            Thread.sleep(5000);
-        } catch (InterruptedException e) { // Compliant; the interrupted state is restored
-            logger.log(Level.WARNING, "Interrupted!", e);
-            /* Clean up whatever needs to be handled before interrupting  */
-            Thread.currentThread().interrupt();
         } catch (Exception e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } finally {
