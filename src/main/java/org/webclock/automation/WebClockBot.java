@@ -116,16 +116,12 @@ public class WebClockBot {
 
         // Locate table rows
         List<WebElement> rows = driver.findElements(By.cssSelector("table.table tbody tr"));
+        List<WebElement> cells = rows.get(1).findElements(By.tagName("td"));
+        String startDate = cells.get(4).getText().trim();
 
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.size() >= 5) { // "Start" is the 5th column
-                String startDate = cells.get(4).getText().trim();
-                if (startDate.equalsIgnoreCase(todayFormatted)) {
-                    logger.log(Level.WARNING, "Entry already exists for today: {0}", todayFormatted);
-                    return true;
-                }
-            }
+        if (startDate.equalsIgnoreCase(todayFormatted)) {
+            logger.log(Level.WARNING, "Entry already exists for today: {0}", todayFormatted);
+            return true;
         }
         return false;
     }
