@@ -62,7 +62,7 @@ public class WebClockBot {
 
                 // Click the OK button
                 String okButtonCss = "#tcHourEntry > div > div > div > div > div:nth-child(4) > div > input";
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(okButtonCss)));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(okButtonCss)));
                 driver.findElement(By.cssSelector(okButtonCss)).click();
             }
 
@@ -74,12 +74,12 @@ public class WebClockBot {
 
                 // Click current time sheet
                 String timeSheetAnchorCss = "#timemanagement > div > div > div > div > div.modal-body > div:nth-child(2) > div:nth-child(1) > a";
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(timeSheetAnchorCss)));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(timeSheetAnchorCss)));
                 driver.findElement(By.cssSelector(timeSheetAnchorCss)).click();
 
                 // Click "Approve" button
                 String approveAnchorCssSelector = "#supvtimesheet > div > div:nth-child(12) > div > div > input:nth-child(2)";
-                wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(approveAnchorCssSelector)));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(approveAnchorCssSelector)));
                 driver.findElement(By.cssSelector(approveAnchorCssSelector)).click();
 
             }
