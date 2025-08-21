@@ -67,7 +67,7 @@ public class WebClockBot {
             }
 
             // Approve time sheet
-            if ( getTotalHours(driver) >= 80 ) {
+            if ( getTotalHours(driver, wait) >= 80 ) {
 
                 // Click "Time Management" navbar link
                 driver.findElement(By.cssSelector("#navbarText > ul.navbar-nav.mr-auto > li:nth-child(1) > a")).click();
@@ -90,9 +90,11 @@ public class WebClockBot {
         }
     }
 
-    public int getTotalHours(WebDriver driver) {
+    public int getTotalHours(WebDriver driver, WebDriverWait wait) {
         // Locate the <td> element
-        WebElement tdElement = driver.findElement(By.xpath("//td[contains(text(),'Total Hours:')]"));
+        String xPathTotalHours = "//td[contains(text(),'Total Hours:')]";
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(xPathTotalHours)));
+        WebElement tdElement = driver.findElement(By.xpath(xPathTotalHours));
 
         // Get text content (e.g., "Total Hours: 88.00")
         String text = tdElement.getText();
