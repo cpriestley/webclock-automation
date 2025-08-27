@@ -1,5 +1,7 @@
 package org.webclock.automation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,11 +15,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class WebClockBot {
-    private final Logger logger = Logger.getLogger(getClass().getName());
+    private final Logger logger = LogManager.getLogger(getClass().getName());
     private final Config config;
 
     public WebClockBot(Config config) {
@@ -84,7 +84,7 @@ public class WebClockBot {
 
             }
         } catch (Exception e) {
-            logger.log(Level.WARNING, e.getMessage(), e);
+            logger.warn(e.getMessage(), e);
         } finally {
             driver.quit();
         }
@@ -122,7 +122,7 @@ public class WebClockBot {
         String startDate = cells.get(4).getText().trim();
 
         if (startDate.equalsIgnoreCase(todayFormatted)) {
-            logger.log(Level.WARNING, "Entry already exists for today: {0}", todayFormatted);
+            logger.warn("Entry already exists for today: {}", todayFormatted);
             return true;
         }
         return false;

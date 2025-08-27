@@ -47,3 +47,6 @@ bin/
 
 # Ignore sensitive config file
 config.yaml
+
+# Ignore logs
+/logs/
