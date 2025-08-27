@@ -93,7 +93,7 @@ public class WebClockBot {
     public int getTotalHours(WebDriver driver, WebDriverWait wait) {
         // Locate the <td> element
         String xPathTotalHours = "//td[contains(text(),'Total Hours:')]";
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(xPathTotalHours)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPathTotalHours)));
         WebElement tdElement = driver.findElement(By.xpath(xPathTotalHours));
 
         // Get text content (e.g., "Total Hours: 88.00")
