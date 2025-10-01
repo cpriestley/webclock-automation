@@ -109,23 +109,34 @@ public class WebClockBot {
 
     /**
      * Checks if today's date already exists in the time entry table.
+     * Assumes today's entry, if present, will always be in the first non-header row.
      *
+     * @param driver WebDriver instance
      * @return true if today's date is already in the table, false otherwise.
      */
     public boolean hasEntryForToday(WebDriver driver) {
-        // Match format used in the table: "08-Tue-19"
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-EEE-dd");
-        String todayFormatted = LocalDate.now().format(formatter);
+        try {
+            // Match format used in the table: "08-Tue-19"
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-EEE-dd");
+            String todayFormatted = LocalDate.now().format(formatter);
 
-        // Locate table rows
-        List<WebElement> rows = driver.findElements(By.cssSelector("table.table tbody tr"));
-        List<WebElement> cells = rows.get(1).findElements(By.tagName("td"));
-        String startDate = cells.get(4).getText().trim();
+            // Locate table rows
+            List<WebElement> rows = driver.findElements(By.cssSelector("table.table tbody tr:not(:first-child)"));
 
-        if (startDate.equalsIgnoreCase(todayFormatted)) {
-            logger.warn("Entry already exists for today: {}", todayFormatted);
-            return true;
+            // Quick check for empty state: if second row has colspan, no entries
+            if (rows.size() >= 2 && !rows.get(1).findElements(By.cssSelector("td[colspan]")).isEmpty()) {
+                return false;
+            }
+            // If we get here, check first data row
+            if (rows.size() >= 2) {
+                List<WebElement> cells = rows.get(1).findElements(By.tagName("td"));
+                return cells.size() > 4 && todayFormatted.equalsIgnoreCase(cells.get(4).getText().trim());
+            }
+
+            return false;
+        } catch (Exception e) {
+            logger.error("Error checking for today's entry: {}", e.getMessage());
+            return false;
         }
-        return false;
     }
 }
