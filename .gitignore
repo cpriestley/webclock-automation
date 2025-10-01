@@ -12,6 +12,7 @@ build/
 .idea/vcs.xml
 .idea/modules.xml
 .idea/jarRepositories.xml
+.idea/dbnavigator.xml
 .idea/libraries/
 *.iws
 *.iml
