@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.webclock.config.Config;
+import org.webclock.util.DateUtils;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -67,7 +68,7 @@ public class WebClockBot {
             }
 
             // Approve time sheet
-            if ( getTotalHours(driver, wait) >= 80 ) {
+            if ( getTotalHours(driver, wait) >= 80 && DateUtils.isTodayLastBusinessDayOfMonth() ) {
 
                 // Click "Time Management" navbar link
                 driver.findElement(By.cssSelector("#navbarText > ul.navbar-nav.mr-auto > li:nth-child(1) > a")).click();
