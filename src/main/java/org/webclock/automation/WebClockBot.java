@@ -129,8 +129,9 @@ public class WebClockBot {
             }
             // If we get here, check first data row
             if (rows.size() >= 2) {
-                List<WebElement> cells = rows.get(1).findElements(By.tagName("td"));
-                return cells.size() > 4 && todayFormatted.equalsIgnoreCase(cells.get(4).getText().trim());
+                List<WebElement> cells = rows.get(0).findElements(By.tagName("td"));
+                String lastTimecardEntryDate = cells.get(4).getText().trim();
+                return cells.size() > 4 && todayFormatted.equalsIgnoreCase(lastTimecardEntryDate);
             }
 
             return false;
