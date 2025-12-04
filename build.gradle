@@ -43,7 +43,7 @@ tasks.jar {
 // Task to build fat JAR with dependencies
 tasks.register('fatJar', Jar) {
     archiveBaseName.set('webclock-automation') // <-- meaningful name
-    archiveClassifier.set('all')
+    archiveVersion = '0.1.0'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
