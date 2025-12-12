@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.webclock'
-version = '0.1.1'
+version = '0.1.2'
 
 repositories {
     mavenCentral()
@@ -13,8 +13,8 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.36.0")
-    implementation("org.seleniumhq.selenium:selenium-java:4.36.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.39.0")
+    implementation("org.seleniumhq.selenium:selenium-java:4.39.0")
     implementation("org.yaml:snakeyaml:2.4")
     implementation("org.apache.logging.log4j:log4j-core:2.25.1")
 }
