@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.webclock'
-version = '0.1.0'
+version = '0.1.1'
 
 repositories {
     mavenCentral()
@@ -43,7 +43,7 @@ tasks.jar {
 // Task to build fat JAR with dependencies
 tasks.register('fatJar', Jar) {
     archiveBaseName.set('webclock-automation') // <-- meaningful name
-    archiveVersion = '0.1.1'
+    archiveVersion.set(project.version.toString())
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
